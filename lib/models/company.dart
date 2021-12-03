@@ -1,5 +1,7 @@
 class Company{
   final String companyName;
+  final String companyInitials;
+  final String companyDescription;
   
  Map totalRevenue = //<String, int>
   {
