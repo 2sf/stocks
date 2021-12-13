@@ -1,76 +1,37 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'models/company.dart';
+import 'models/mock_data.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CompanyAnanysis());
 }
-  //TODO make the table
+  //TODO make company list view
+  //TODO make company detail view(the table)
   //TODO make searchbar
   //TODO make dropdown
   //TODO connect to database 
   //TODO push data to database
   //TODO automate feching and updating data in database
   
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  
+class CompanyAnanysis extends StatelessWidget {
+  const CompanyAnanysis({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = ThemeData();
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-    _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-  
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      title: 'Company Analysis',
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: const Color(0xFF9C5FF5),
+          secondary: Colors.black,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
+      home: const MyHomePage(title: 'Company Analysis'),
     );
   }
 }
+
+
