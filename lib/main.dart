@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
-import 'models/company.dart';
-import 'models/mock_data.dart';
-
 
 void main() {
   runApp(const CompanyAnanysis());
 }
-  //TODO make company list view
   //TODO make company detail view(the table)
   //TODO make searchbar
   //TODO make dropdown
@@ -22,6 +18,7 @@ class CompanyAnanysis extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Company Analysis',
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(

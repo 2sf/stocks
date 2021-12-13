@@ -22,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         child: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(2, 5, 2, 5),
           itemCount: Company.samples.length,
           itemBuilder: (BuildContext context, int index){
             return GestureDetector(
@@ -35,10 +36,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               },
+              child: buildCompanyCard(Company.samples[index]),
             );
           },
         ),
       ),      
+    );
+  }
+    Widget buildCompanyCard(Company company) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile( 
+              title: Text(company.companyName),
+            ),  
+          ],//
+        ),
+      ),
     );
   }
 }
