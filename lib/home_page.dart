@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/company.dart';
 import 'company_detail_page.dart';
-//mport 'models/mock_data.dart';
+import 'models/mock_data.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: ListView.builder(
           padding: const EdgeInsets.fromLTRB(2, 5, 2, 5),
-          itemCount: Company.samples.length,
+          itemCount: companySamples.length,
           itemBuilder: (BuildContext context, int index){
             return GestureDetector(
               onTap: () {
@@ -31,16 +31,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context){
-                      return CompanyDetail(company: Company.samples[index]);
+                      return CompanyDetail(company: companySamples[index]);
                     },
                   ),
                 );
               },
-              child: buildCompanyCard(Company.samples[index]),
+              child: buildCompanyCard(companySamples[index]),
             );
           },
         ),
-      ),      
+      ),    
     );
   }
     Widget buildCompanyCard(Company company) {

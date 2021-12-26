@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:stocks/models/mock_data.dart';
 import 'models/company.dart';
 
 class CompanyDetail extends StatefulWidget {
-  final Company company;
-  final List<String> years= const ['2016','2017','2018','2019','2020','2021','TTM'];
-  
   const CompanyDetail({
     Key? key,
     required this.company,
   }) : super(key: key);
+
+  final Company company;
 
   @override
   _CompanyDetailState createState() {
@@ -17,6 +17,19 @@ class CompanyDetail extends StatefulWidget {
 }
 
 class _CompanyDetailState extends State<CompanyDetail> {
+  //note that the lest below stores the head row of the table (conversely the first values of each column)
+  static const List<String> columns= ['Fields','2016','2017','2018','2019','2020','2021','TTM','2021','TTM'];//TODO fix this (the extra 2021 and TTM are required because _AssertionError ('package:flutter/src/material/data_table.dart': Failed assertion: line 401 pos 15: '!rows.any((DataRow row) => row.cells.length != columns.length)': is not true.))
+  static const List<String> fields= ['Total Revenue','Net Income','Net Cash From Ops','Current Assets','Current Liabilities','Net Profit After Tax','Total Oprating Income','Interest Expense','Total Long Term Debt'];
+  //static const List<String> columns= ['Fields','2016','2017','2018','2019','2020','2021','TTM'];
+  //const List<String> rows= ['Fields','2016','2017','2018','2019','2020','2021','TTM']; 
+  late List<Company> companies;
+
+  @override
+  void initState() {
+    super.initState();
+    companies = List.of(companySamples);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,114 +37,64 @@ class _CompanyDetailState extends State<CompanyDetail> {
         title: Text(widget.company.companyName),
       ),
       body: SafeArea(
-        child: Table(
-            border: TableBorder.all(),
-            columnWidths: const <int, TableColumnWidth>{
-              0: IntrinsicColumnWidth(),
-              1: FlexColumnWidth(),
-              2: FixedColumnWidth(64),
-            },
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: <TableRow>[
-              TableRow(
-                children: <Widget>[
-                  Container(
-                    height: 32,
-                    color: Colors.green,
-                  ),
-                  TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.top,
-                    child: Container(
-                      height: 32,
-                      width: 32,
-                      color: Colors.red,
-                    ),
-                  ),
-                  Container(
-                    height: 64,
-                    color: Colors.blue,
-                  ),
-                ],
-              ),
-              TableRow(
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                children: <Widget>[
-                  Container(
-                    height: 64,
-                    width: 128,
-                    color: Colors.purple,
-                  ),
-                  Container(
-                    height: 32,
-                    color: Colors.yellow,
-                  ),
-                  Center(
-                    child: Container(
-                      height: 32,
-                      width: 32,
-                      color: Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: _buildDataTable()
         ),
+        // child: ScrollableWidget(
+        //   children: [
+        //     _buildDataTable()
+        //   ],
+        // ),
       ),
     );
   }
-}
 
+  DataTable _buildDataTable(){
+    return DataTable(
+        columns: _getColumns(columns),
+        //rows: _getRows(fields),
+        rows: _getRows(companies),// TODO get sample data
+    );
+  }
 
+  List<DataColumn> _getColumns(List<String> columns) {
+    return columns.map((String column) {
+      return DataColumn(
+        label: Text(column),
+        //onSort: onSort,
+      );
+    }).toList();
+  }
 
+  // List<DataRow> _getRows(List<Company> companies) {
+  //   return [
+  //     const DataRow(cells: [
+  //       //DataCell(Text(company.totalRevenue)),
+  //       DataCell(Text('Flutter Basics')),
+  //       DataCell(Text('David John')), 
+  //       // company.netIncome, 
+  //       // company.netCashFlowFromOperations, 
+  //       // company.currentAssets,
+  //       // company.currentLiabilities,
+  //       // company.totalRevenue, 
+  //       // company.interestExpense, 
+  //       // company.netProfitAfterTax,
+  //       // company.totalLongTermDebt
+  //     ]),
+  //   ];   
+  // }
+
+  //TODO alter here
   
-class TableExample extends State {  
-  @override  
-  Widget build(BuildContext context) {  
-    return MaterialApp(  
-      home: Scaffold(  
-          appBar: AppBar(  
-            title:const  Text('Flutter Table Example'),  
-          ),  
-          body: Center(  
-              child: Column(children: <Widget>[  
-                Container(  
-                  margin: const EdgeInsets.all(20),  
-                  child: Table(  
-                    defaultColumnWidth: const FixedColumnWidth(120.0),  
-                    border: TableBorder.all(  
-                        color: Colors.black,  
-                        style: BorderStyle.solid,  
-                        width: 2),  
-                    children: [  
-                      TableRow( children: [  
-                        Column(children:const [Text('Website', style: TextStyle(fontSize: 20.0))]),  
-                        Column(children:const [Text('Tutorial', style: TextStyle(fontSize: 20.0))]),  
-                        Column(children:const [Text('Review', style: TextStyle(fontSize: 20.0))]),  
-                      ]),  
-                      TableRow( children: [  
-                        Column(children:const [Text('Javatpoint')]),  
-                        Column(children:const [Text('Flutter')]),  
-                        Column(children:const [Text('5*')]),  
-                      ]),  
-                      TableRow( children: [  
-                        Column(children:const [Text('Javatpoint')]),  
-                        Column(children:const [Text('MySQL')]),  
-                        Column(children:const [Text('5*')]),  
-                      ]),  
-                      TableRow( children: [  
-                        Column(children:const [Text('Javatpoint')]),  
-                        Column(children:const [Text('ReactJS')]),  
-                        Column(children:const [Text('5*')]),  
-                      ]),  
-                    ],  
-                  ),  
-                ),  
-              ],
-            ),
-          ),
-      ),  
-    );  
-  }  
-}  
+  List<DataRow> _getRows(List<Company> company) {
+    return company.map((Company company) {
+      final cells = [fields, company.totalRevenue, company.netIncome, company.netCashFlowFromOperations, company.currentAssets, company.currentLiabilities, company.totalRevenue, company.interestExpense, company.netProfitAfterTax, company.totalLongTermDebt];
+
+      return DataRow(cells: getCells(cells));
+    }).toList();
+  }
+
+  List<DataCell> getCells(List<dynamic> cells) {
+    return cells.map((data) => DataCell(Text('$data'))).toList();
+  }
+}
